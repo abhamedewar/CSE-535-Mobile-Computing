@@ -5,7 +5,7 @@
 https://user-images.githubusercontent.com/20626950/231036538-140a23c2-422d-4fe3-961a-560f12c06f61.mp4
 
 ## Description
-Handwritten Digit Classifier App is an Android application that allows users to upload images of handwritten digits to a server, where they are classified into
+Handwritten Digit Reader is an Android application that allows users to upload images of handwritten digits to a server, where they are classified into
 different classes of digits using a PyTorch model. The images are then placed into their respective folders based on their classification. The application includes
 access to a camera that enables users to capture images of handwritten digits. The application consists of two pages: the first page prompts users to decide whether
 they want to upload an image or not, while the second page provides a button to access the camera, take a photo, and upload it to the server.

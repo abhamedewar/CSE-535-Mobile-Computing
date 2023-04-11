@@ -9,16 +9,35 @@ import torch.nn.functional as F
 from torchvision import datasets, transforms
 from torch.utils.data import Subset, DataLoader
 import matplotlib.pyplot as plt
+import cv2
 
 
 print("Loading datasets...")
 MNIST_transform = transforms.Compose([
-    transforms.ToTensor(),
+    transforms.ToTensor()
 ])
-MNIST_trainval = datasets.MNIST('.', download=True, train=True, transform=MNIST_transform)
-MNIST_train = Subset(MNIST_trainval, range(50000))
-MNIST_val = Subset(MNIST_trainval, range(50000,60000))
-MNIST_test = datasets.MNIST('.', download=True, train=False, transform=MNIST_transform)
+
+MNIST_transform_invert = transforms.Compose([
+    transforms.ToTensor(),
+    transforms.RandomInvert(p=1)
+])
+
+mnist_invert = True
+model_path = ''
+mnist_train_images = r'.\output_split\training'
+mnist_test_images = r'.\output_split\testing'
+
+if not mnist_invert:
+    print("....Not using inverted images....")
+    model_path = './model/mnist_model_not_inverted.pth'
+    MNIST_train = datasets.ImageFolder(mnist_train_images, transform=MNIST_transform)
+    MNIST_test = datasets.ImageFolder(mnist_test_images, transform=MNIST_transform)
+else:
+    print("....Using inverted images....")
+    model_path = './model/mnist_model_inverted.pth'
+    MNIST_train = datasets.ImageFolder(mnist_train_images, transform=MNIST_transform_invert)
+    MNIST_test = datasets.ImageFolder(mnist_test_images, transform=MNIST_transform_invert)
+
 print("Completed!!")
 
 #create model directory to save the trained model
@@ -26,31 +45,35 @@ if not os.path.exists('./model'):
     os.makedirs('./model')
 
 #hyperparameters for training the model
-batch_size = 32
+batch_size = 1024
 learning_rate = 0.001
 weight_decay = 1e-4
-epoch = 40
-model_path = './model/mnist_model.pth'
+epoch = 50
+
 
 trainloader = DataLoader(MNIST_train, batch_size, shuffle=True)
-valloader = DataLoader(MNIST_val, batch_size, shuffle=True)
 testloader = DataLoader(MNIST_test, batch_size, shuffle=True)
 
+'''
 #view sample data
 examples = enumerate(testloader)
 batch_idx, (example_data, example_targets) = next(examples)
 
 print(example_data.shape)
-plt.imshow(example_data[1][0], cmap ='gray')
-plt.show()
-
+for i in range(5):
+    # plt.imsave(str(i) + '.png', example_data[i][0], cmap='gray')
+    plt.imshow(example_data[i][0], cmap='gray')
+    plt.show()
+    # cv2.imwrite(str(i) + '.png', example_data[i][0])
+exit()
+'''
 class Network(nn.Module):
     def __init__(self):
         super().__init__()
 
-        self.conv1 = nn.Conv2d(in_channels=1, out_channels=6, kernel_size=(5,5), stride=(1,1), padding=(0,0))
-        self.conv2 = nn.Conv2d(in_channels=6, out_channels=16, kernel_size=(5,5), stride=(1,1), padding=(0,0))
-        self.conv3 = nn.Conv2d(in_channels=16, out_channels= 120, kernel_size=(4,4), stride=(1,1), padding=(0,0))
+        self.conv1 = nn.Conv2d(in_channels=3, out_channels=6, kernel_size=(3,3), stride=(1,1), padding=(0,0))
+        self.conv2 = nn.Conv2d(in_channels=6, out_channels=16, kernel_size=(3,3), stride=(1,1), padding=(0,0))
+        self.conv3 = nn.Conv2d(in_channels=16, out_channels= 120, kernel_size=(2,2), stride=(1,1), padding=(0,0))
 
         self.fully_connected1 = nn.Linear(in_features=120, out_features=84)
         self.fully_connected2=nn.Linear(in_features=84, out_features=10)
@@ -89,14 +112,17 @@ class Network(nn.Module):
         return x
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
+print(device)
+# model = Network().to(device)
 model = Network().to(device)
-criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
+model.load_state_dict(torch.load('./model/mnist_model_inverted.pth'))
+# criterion = nn.CrossEntropyLoss()
+# optimizer = optim.Adam(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
 
 training_loss = []
 validation_loss = []
 
-def train(model, loader, valloader, num_epoch = 10):
+def train(model, loader, num_epoch = 10):
     print("Start training...")
     for i in tqdm(range(num_epoch)):
         model.train()
@@ -113,19 +139,6 @@ def train(model, loader, valloader, num_epoch = 10):
         print("Epoch {} training loss:{}".format(i+1,np.mean(train_running_loss)))
         training_loss.append(np.mean(train_running_loss))
 
-        #run the model to evaluate on the validation dataset and get the validation accuracy
-        model.eval()
-        val_running_loss = []
-        for val_batch, val_label in valloader:
-            val_batch = val_batch.to(device)
-            val_label = val_label.to(device)
-            pred = model(val_batch)
-            loss_val = criterion(pred, val_label)
-            val_running_loss.append(loss_val.item())
-        print("Epoch {} validation loss:{}".format(i+1,np.mean(val_running_loss)))
-        validation_loss.append(np.mean(val_running_loss))
-        print("Evaluation on training data...")
-        evaluate(model, trainloader)
     #save the model once all the epochs are complete
     torch.save(model.state_dict(), model_path)
     print("Done!")
@@ -133,8 +146,8 @@ def train(model, loader, valloader, num_epoch = 10):
 def plot_loss():
     x = np.arange(0, len(training_loss), 1, dtype=int)
     plt.plot(x, training_loss, label = 'Training Loss')
-    plt.plot(x, validation_loss, label = 'Validation Loss')
-    plt.title("Training and Validation Plots")
+    # plt.plot(x, validation_loss, label = 'Validation Loss')
+    plt.title("Training")
     plt.xlabel("Epoch")
     plt.ylabel("Loss")
     plt.legend()
@@ -155,9 +168,8 @@ def evaluate(model, loader):
     print("Evaluation accuracy: {}".format(acc))
     return acc
 
-train(model, trainloader, valloader, epoch)
-plot_loss()
-print("Evaluate on validation set...")
-evaluate(model, valloader)
-print("Evaluate on test set")
-evaluate(model, testloader)
+# train(model, trainloader, epoch)
+# plot_loss()
+print("Evaluate on training set")
+# evaluate(model, testloader)
+evaluate(model, trainloader)

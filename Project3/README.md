@@ -19,5 +19,18 @@ The flask servers running on the client phones use the pre-trained model to clas
 majority of predicted outcomes received from the client mobiles, the decision is made to store the image in its respective folder. For example, if the prediction
 from 3 out of 4 client mobiles for an image of digit 8 is 8 and 1 is 0, the image will be stored in folder number 8.
 
+## Pytorch Implemention Details
 
+The model consists of several layers, including convolutional layers, fully connected layers, and pooling layers.
+The first layer is a 2D convolutional layer with an input of 3 channels (for RGB images), output of 6 channels, and a kernel size of 3x3. The second convolutional layer has an input of 6 channels, output of 16 channels, and a kernel size of 3x3. The third convolutional layer has an input of 16 channels, output of 120 channels, and a kernel size of 2x2.
+After each convolutional layer, a Rectified Linear Unit (ReLU) activation function is applied to introduce non-linearity in the model. A 2D average pooling layer with a kernel size of 2x2 and stride of 2x2 is used to downsample the output of the convolutional layer. A dropout layer with a rate of 0.25 is also applied to prevent overfitting.
+The output of the last convolutional layer is flattened and passed through two fully connected layers. The first fully connected layer has 120 input features and 84 output features. The second fully connected layer has 84 input features and 10 output features, which correspond to the 10 possible classes of handwritten digits (0-9).
+
+**The image is splits into 4 parts - left top, left bottom, right top, right bottom based on its height and width and then used as a training set image.** 
+
+## Model Accuracy
+
+![image](https://user-images.githubusercontent.com/20626950/231043798-a0a8a692-b7a1-4323-b447-297677f0d1ab.png)
+
+![image](https://user-images.githubusercontent.com/20626950/231044465-3d3fa261-3b94-4f6e-aa4e-a6f8f449a989.png)
 

@@ -1,4 +1,4 @@
-Handwritten Digit Classifier App
+# Handwritten Digit Reader: An AI-powered Andriod application for image classification
 
 ## Description
 Handwritten Digit Classifier App is an Android application that allows users to upload images of handwritten digits to a server, where they are classified into
@@ -27,9 +27,23 @@ To use the application:
   On the second page, click the camera button to take a photo of a handwritten digit.
   
   After taking the photo, the application will automatically classify the digit and place it into the appropriate folder.
+  
+## Pytorch Implementation
+
+1. The Network class is defined as a subclass of the nn.Module class provided by PyTorch, which allows us to define our own neural network architectures.
+2. The class defines the architecture of a convolutional neural network (CNN) for the purpose of classifying handwritten digits.
+3. The CNN consists of three convolutional layers, two fully connected layers, and some other operations such as pooling, activation, and dropout.
+4. The first convolutional layer takes a single-channel input image of size 28x28 and applies 6 filters of size 5x5 with stride 1 and no padding.
+5. The second convolutional layer takes the output of the first layer, applies 16 filters of size 5x5, and applies average pooling with kernel size 2x2 and stride 2.
+6. The third convolutional layer takes the output of the second layer, applies 120 filters of size 4x4, and applies ReLU activation.
+7. The output of the third layer is flattened and passed through two fully connected layers, with the first layer having 120 input features and 84 output features,
+and the second layer having 84 input features and 10 output features.
+8. The output of the second fully connected layer is the predicted class probabilities for each of the 10 digits (0-9).
+
+The convolutional layers perform feature extraction on the input image, and the pooling layers reduce the spatial dimensions of the output of each convolutional layer. The fully connected layers perform classification on the features extracted by the convolutional layers, and the ReLU activation function introduces nonlinearity into the network. The dropout layer is used to prevent overfitting by randomly setting a fraction of the output of the previous layer to zero during training.
 
 ## Model Accuracy
-We created a PyTorch model to classify the handwritten digits, which achieved 99.66% training accuracy, 99.09% validation accuracy, and 99.19% testing accuracy.
+A PyTorch model is used to classify the handwritten digits, which achieved 99.66% training accuracy, 99.09% validation accuracy, and 99.19% testing accuracy.
 Please refer to Fig. 1 for the accuracy of the model and Fig. 2 for a plot of epoch against loss for the training and validation data points.
 
 ![image](https://user-images.githubusercontent.com/20626950/231037096-9c08a5b6-80f9-4e85-9ba1-8d8ba35ffbc2.png)

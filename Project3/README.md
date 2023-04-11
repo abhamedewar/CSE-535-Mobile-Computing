@@ -19,11 +19,5 @@ The flask servers running on the client phones use the pre-trained model to clas
 majority of predicted outcomes received from the client mobiles, the decision is made to store the image in its respective folder. For example, if the prediction
 from 3 out of 4 client mobiles for an image of digit 8 is 8 and 1 is 0, the image will be stored in folder number 8.
 
-## Image segment samples
 
-![17_righttop](https://user-images.githubusercontent.com/20626950/231042142-4025476f-e22b-4af2-b225-8cbd4c2e55f4.png = 100x100)
-![17_righttop](https://user-images.githubusercontent.com/20626950/231042142-4025476f-e22b-4af2-b225-8cbd4c2e55f4.png = 100x100)
-![17_leftbottom](https://user-images.githubusercontent.com/20626950/231042147-a4b94af0-b32d-472c-8708-c9446d387b4c.png)
-![17_lefttop](https://user-images.githubusercontent.com/20626950/231042148-62fa434b-8003-4f88-b5ae-c1024b22e8a7.png)
-![17_rightbottom](https://user-images.githubusercontent.com/20626950/231042151-910b0093-c64f-45bf-83b4-c35c3e5bb687.png)
 

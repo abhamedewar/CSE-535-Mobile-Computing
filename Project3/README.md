@@ -1,4 +1,4 @@
-# Distributed Image Classification Application for handwritten digits
+# Distributed Image Classification Application for Handwritten Digits
 
 ## Demo
 

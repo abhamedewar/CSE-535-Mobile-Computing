@@ -1,5 +1,9 @@
 # Image Categorizer Application
 
+## Demo
+
+https://user-images.githubusercontent.com/20626950/231031832-daa9a670-35fc-40a4-9223-6bdcce61eace.mp4
+
 ## Description
 
 Image Categorizer App is an Android application that allows users to store their clicked images on a server, categorized based on the category they select. The application is integrated with a camera that enables users to capture images of their choice. Users can select a category for the clicked image from the category dropdown menu provided in the application. The application consists of two pages: the first page prompts users to decide whetherthey want to click a picture, while the second page provides a button to access the camera, take a photo,select a category for the captured image and upload it to the server.
@@ -28,7 +32,5 @@ On the second page, click the camera button to take a photo.
 After taking the photo, select a category from the dropdown menu.
 Click the upload button to upload the photo to the server.
 
-## Demo
 
-https://user-images.githubusercontent.com/20626950/231031832-daa9a670-35fc-40a4-9223-6bdcce61eace.mp4
 

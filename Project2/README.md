@@ -1,5 +1,9 @@
 # Handwritten Digit Reader: An AI-powered Andriod application for image classification
 
+## Demo
+
+https://user-images.githubusercontent.com/20626950/231036538-140a23c2-422d-4fe3-961a-560f12c06f61.mp4
+
 ## Description
 Handwritten Digit Classifier App is an Android application that allows users to upload images of handwritten digits to a server, where they are classified into
 different classes of digits using a PyTorch model. The images are then placed into their respective folders based on their classification. The application includes
@@ -49,7 +53,5 @@ Please refer to Fig. 1 for the accuracy of the model and Fig. 2 for a plot of ep
 ![image](https://user-images.githubusercontent.com/20626950/231037096-9c08a5b6-80f9-4e85-9ba1-8d8ba35ffbc2.png)
 ![image](https://user-images.githubusercontent.com/20626950/231037155-38e2cf72-ca91-461d-b0e7-bdc19cc8cfe6.png)
 
-## Demo
 
-https://user-images.githubusercontent.com/20626950/231036538-140a23c2-422d-4fe3-961a-560f12c06f61.mp4
 

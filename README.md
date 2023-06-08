@@ -4,7 +4,7 @@
 
 Image Categorizer App is an Android application that allows users to store their clicked images on a server, categorized based on the category they select. The application is integrated with a camera that enables users to capture images of their choice. Users can select a category for the clicked image from the category dropdown menu provided in the application. The application consists of two pages: the first page prompts users to decide whetherthey want to click a picture, while the second page provides a button to access the camera, take a photo,select a category for the captured image and upload it to the server.
 
-## Project 2: Handwritten Digit Reader: An AI-powered Andriod application for image classification
+## Project 2: Handwritten Digit Reader: An AI-powered Android application for image classification
 
 Handwritten Digit Reader is an Android application that allows users to upload images of handwritten digits to a server, where they are classified into different classes of digits using a PyTorch model. The images are then placed into their respective folders based on their classification. The application includes access to a camera that enables users to capture images of handwritten digits. The application consists of two pages: the first page prompts users to decide whether they want to upload an image or not, while the second page provides a button to access the camera, take a photo, and upload it to the server.
 
